@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "836527183434",
+    "firebase_url": "https://dharmaline-769cd.firebaseio.com",
+    "project_id": "dharmaline-769cd",
+    "storage_bucket": "dharmaline-769cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836527183434:android:563234c54aa65093f938b3",
+        "android_client_info": {
+          "package_name": "com.omgwtf.dharmaline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836527183434-lo6mhq3fvohtbs3qfqeht0269phk2m17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7QEZBzzLpXjNOuokipeJu0M0K8FfgkQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836527183434-lo6mhq3fvohtbs3qfqeht0269phk2m17.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "836527183434-jrn2k21kcpso1sjvqn0vohrss5nq0kjn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.omgwtf.dharmaline"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
