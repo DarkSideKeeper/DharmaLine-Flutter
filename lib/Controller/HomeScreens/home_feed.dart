@@ -5,8 +5,6 @@ import '../../Common/loadingView.dart';
 import '../../Common/webView.dart';
 
 class HomeFeed extends StatefulWidget {
-  static const routeName = '/feed';
-
   @override
   State<StatefulWidget> createState() {
     return _HomeFeedState();

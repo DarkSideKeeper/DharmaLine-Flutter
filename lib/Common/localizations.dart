@@ -10,12 +10,16 @@ class AppLocalizations {
 
   static Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'AppName': 'Dharma-Baraka',
       'Feed': 'New',
+      'Temple': 'Temple',
       'Prayer': 'Prayer',
       'Setting': 'Setting',
     },
     'th': {
+      'AppName': 'Dharma-เอ็นเตอร์ธรรม',
       'Feed': 'ข่าวธรรมะ',
+      'Temple': 'วัด',
       'Prayer': 'บทสวดมนต์',
       'Setting': 'ตั้งค่า',
     },

@@ -1,9 +1,10 @@
+import 'package:dharmaline/Model/chantTopicModel.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../TabPrayer/listPrayerVC.dart';
+import '../../Common/loadingView.dart';
 
 class HomePrayer extends StatefulWidget {
-  static const routeName = '/prayer';
-
   @override
   State<StatefulWidget> createState() {
     return _HomePrayerState();
@@ -11,67 +12,64 @@ class HomePrayer extends StatefulWidget {
 }
 
 class _HomePrayerState extends State<HomePrayer> {
+  final CollectionReference chants =
+      FirebaseFirestore.instance.collection('ChantTopic');
+
   @override
   Widget build(BuildContext context) {
-    List<_Photo> _photos(BuildContext context) {
-      return [
-        _Photo(
-          assetName: 'assets/prayer/prayer1.jpg',
-        ),
-        _Photo(
-          assetName: 'assets/prayer/prayer1.jpg',
-        ),
-        _Photo(
-          assetName: 'assets/prayer/prayer1.jpg',
-        ),
-        _Photo(
-          assetName: 'assets/prayer/prayer1.jpg',
-        ),
-        _Photo(
-          assetName: 'assets/prayer/prayer1.jpg',
-        ),
-        _Photo(
-          assetName: 'assets/prayer/prayer1.jpg',
-        ),
-      ];
-    }
+    return StreamBuilder<QuerySnapshot>(
+      stream: chants.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
 
-    return Scaffold(
-      body: GridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        padding: const EdgeInsets.all(8),
-        childAspectRatio: 1,
-        children: _photos(context).map<Widget>((photo) {
-          return _GridDemoPhotoItem(
-            photo: photo,
-          );
-        }).toList(),
-      ),
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ProgressIndicatorDemo();
+        }
+
+        return Scaffold(
+          body: GridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+            padding: const EdgeInsets.all(8),
+            childAspectRatio: 1,
+            children: snapshot.data.docs.map(
+              (DocumentSnapshot document) {
+                return new _GridView(
+                  item: _GridItem(
+                    topic: ChantTopicModel(
+                      document.data()['Title'],
+                      document.data()['ImageName'],
+                      List.from(document.data()['Chapters']),
+                    ),
+                  ),
+                );
+              },
+            ).toList(),
+          ),
+        );
+      },
     );
   }
 }
 
-class _Photo {
-  _Photo({
-    this.assetName,
-    this.title,
-    this.subtitle,
+class _GridItem {
+  _GridItem({
+    this.topic,
   });
 
-  final String assetName;
-  final String title;
-  final String subtitle;
+  final ChantTopicModel topic;
 }
 
-class _GridDemoPhotoItem extends StatelessWidget {
-  _GridDemoPhotoItem({
+class _GridView extends StatelessWidget {
+  _GridView({
     Key key,
-    @required this.photo,
+    @required this.item,
   }) : super(key: key);
 
-  final _Photo photo;
+  final _GridItem item;
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +77,15 @@ class _GridDemoPhotoItem extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ListPrayerVC()),
+          MaterialPageRoute(
+            builder: (context) => ListPrayerVC(
+              topic: item.topic,
+            ),
+          ),
         );
       },
       child: Image.asset(
-        photo.assetName,
+        item.topic.getImageFile(),
         fit: BoxFit.cover,
       ),
     );
